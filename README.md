@@ -1,4 +1,4 @@
-# Prueba Senior Laravel & React
+# Prueba  Laravel & React
 
 API REST en Laravel 13 y aplicación web en React + TypeScript para autenticación y administración de usuarios. Todo corre en Docker.
 
