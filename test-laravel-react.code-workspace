@@ -1,0 +1,152 @@
+{
+  "folders": [
+    { "name": "backend", "path": "apps/backend" },
+    { "name": "infrastructure", "path": "infrastructure" },
+    { "name": "envs", "path": "envs" },
+    { "name": "root", "path": "." }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/.DS_Store": true,
+      "**/.phpunit.cache": true
+    },
+    "search.exclude": {
+      "**/vendor": true,
+      "**/storage/framework": true
+    },
+    "files.watcherExclude": {
+      "**/vendor/**": true,
+      "**/storage/**": true
+    },
+    "files.associations": {
+      ".env*": "dotenv",
+      "Dockerfile*": "dockerfile"
+    },
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "php.validate.enable": false,
+    "intelephense.environment.phpVersion": "8.5.0",
+    "[php]": {
+      "editor.defaultFormatter": "open-southeners.laravel-pint",
+      "editor.tabSize": 4
+    },
+    "[yaml]": {
+      "editor.tabSize": 2
+    },
+    "[dockercompose]": {
+      "editor.tabSize": 2
+    },
+    "laravel-pint.enable": true,
+    "laravel-pint.runInLaravelSail": false
+  },
+  "extensions": {
+    "recommendations": [
+      "bmewburn.vscode-intelephense-client",
+      "laravel.vscode-laravel",
+      "open-southeners.laravel-pint",
+      "mikestead.dotenv",
+      "editorconfig.editorconfig",
+      "ms-azuretools.vscode-containers",
+      "redhat.vscode-yaml",
+      "cweijan.vscode-database-client2"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "options": {
+      "cwd": "${workspaceFolder:infrastructure}"
+    },
+    "tasks": [
+      {
+        "label": "docker: up",
+        "type": "shell",
+        "command": "docker compose up -d --build",
+        "problemMatcher": []
+      },
+      {
+        "label": "docker: down",
+        "type": "shell",
+        "command": "docker compose down",
+        "problemMatcher": []
+      },
+      {
+        "label": "docker: restart backend",
+        "type": "shell",
+        "command": "docker compose restart backend",
+        "problemMatcher": []
+      },
+      {
+        "label": "docker: logs",
+        "type": "shell",
+        "command": "docker compose logs -f --tail=100",
+        "isBackground": true,
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: shell",
+        "type": "shell",
+        "command": "docker compose exec backend sh",
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: artisan",
+        "type": "shell",
+        "command": "docker compose exec backend php artisan ${input:artisanCommand}",
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: migrate",
+        "type": "shell",
+        "command": "docker compose exec backend php artisan migrate",
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: migrate:fresh --seed",
+        "type": "shell",
+        "command": "docker compose exec backend php artisan migrate:fresh --seed",
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: test",
+        "type": "shell",
+        "command": "docker compose exec backend php artisan test",
+        "group": "test",
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: pint",
+        "type": "shell",
+        "command": "docker compose exec backend ./vendor/bin/pint",
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: composer install",
+        "type": "shell",
+        "command": "docker compose exec backend composer install",
+        "problemMatcher": []
+      },
+      {
+        "label": "docker: logs queue + scheduler",
+        "type": "shell",
+        "command": "docker compose logs -f --tail=100 queue scheduler",
+        "isBackground": true,
+        "problemMatcher": []
+      },
+      {
+        "label": "backend: schedule:list",
+        "type": "shell",
+        "command": "docker compose exec backend php artisan schedule:list",
+        "problemMatcher": []
+      }
+    ],
+    "inputs": [
+      {
+        "id": "artisanCommand",
+        "type": "promptString",
+        "description": "php artisan ...",
+        "default": "route:list"
+      }
+    ]
+  }
+}
